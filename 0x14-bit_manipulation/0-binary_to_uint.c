@@ -1,32 +1,37 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
+#include "main.h"
 
-unsigned int binary_to_uint(const char *b) {
-if (b == NULL) {
-return 0;
-}
+/**
+ * binary_to_uint - converts a binary number to an
+ * unsigned int.
+ * @b: binary.
+ *
+ * Return: unsigned int.
+ */
+unsigned int binary_to_uint(const char *b)
+{
+	unsigned int ui;
+	int len, base_two;
 
-size_t len = strlen(b);
-if (len > (sizeof(unsigned int) * CHAR_BIT)) {
-return 0;
-}
+	if (!b)
+		return (0);
 
-unsigned int result = 0;
-for (size_t i = 0; i < len; i++) {
-if (b[i] != '0' && b[i] != '1') {
-return 0;
-result <<= 1;
-result |= b[i] - '0';
-}
-return result;
-}
+	ui = 0;
 
-int main() {
-const char *binary = "1011";
-unsigned int number = binary_to_uint(binary);
-printf("The converted number is: %u\n", number);
+	for (len = 0; b[len] != '\0'; len++)
+		;
 
-return 0;
+	for (len--, base_two = 1; len >= 0; len--, base_two *= 2)
+	{
+		if (b[len] != '0' && b[len] != '1')
+		{
+			return (0);
+		}
+
+		if (b[len] & 1)
+		{
+			ui += base_two;
+		}
+	}
+
+	return (ui);
 }
